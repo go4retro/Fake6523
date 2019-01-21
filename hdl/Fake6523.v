@@ -19,7 +19,6 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module Fake6523(
-                input clock,
                 input _reset,
                 input _cs,
                 input [2:0]rs,
@@ -31,10 +30,11 @@ module Fake6523(
                );
 
 reg [7:0]data_out;
+wire clock =   !_cs;
 
-ioport      ioport_a(clock, !_reset, data, (!_cs & !_write & (rs == 3)), data_ddr_a, (!_cs & !_write & (rs == 0)), data_port_a, port_a);
-ioport      ioport_b(clock, !_reset, data, (!_cs & !_write & (rs == 4)), data_ddr_b, (!_cs & !_write & (rs == 1)), data_port_b, port_b);
-ioport      ioport_c(clock, !_reset, data, (!_cs & !_write & (rs == 5)), data_ddr_c, (!_cs & !_write & (rs == 2)), data_port_c, port_c);
+ioport         ioport_a(clock, !_reset, data, (!_cs & !_write & (rs == 3)), data_ddr_a, (!_cs & !_write & (rs == 0)), data_port_a, port_a);
+ioport         ioport_b(clock, !_reset, data, (!_cs & !_write & (rs == 4)), data_ddr_b, (!_cs & !_write & (rs == 1)), data_port_b, port_b);
+ioport         ioport_c(clock, !_reset, data, (!_cs & !_write & (rs == 5)), data_ddr_c, (!_cs & !_write & (rs == 2)), data_port_c, port_c);
 
 assign data =  (clock & !_cs & _write ? data_out : 8'bz);
 
